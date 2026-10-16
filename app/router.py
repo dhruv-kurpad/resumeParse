@@ -1,4 +1,9 @@
-from fastapi import APIRouter, UploadFile
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
+
+from app.dependencies import validated_upload
+from app.schemas import UploadResponse, ValidatedUpload
 
 router = APIRouter()
 
@@ -9,11 +14,10 @@ async def health() -> dict:
 
 
 @router.post("/resumes")
-async def upload_resume(file: UploadFile) -> dict:
-    content = await file.read()
+async def upload_resume(upload: Annotated[ValidatedUpload, Depends(validated_upload)]) -> UploadResponse:
     # TODO: Microsoft document processing API
-    return {
-        "filename": file.filename,
-        "content_type": file.content_type,
-        "size_bytes": len(content),
-    }
+    return UploadResponse(
+        filename=upload.filename,
+        file_type=upload.file_type,
+        size_bytes=upload.size_bytes,
+    )
