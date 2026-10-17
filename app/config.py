@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     database_path: str = "resumes.db"
     max_upload_bytes: int = 20 * 1024 * 1024  # 20 MB
     upload_chunk_bytes: int = 1024 * 1024  # 1 MB
+    log_level: str = "INFO"
 
 
 @lru_cache

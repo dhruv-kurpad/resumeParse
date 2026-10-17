@@ -1,3 +1,5 @@
+import json
+import logging
 import time
 import uuid
 
@@ -5,6 +7,8 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 
 from app.config import get_settings
+
+logger = logging.getLogger("app")
 
 # Multipart adds boundaries and headers around the file itself.
 MULTIPART_OVERHEAD_BYTES = 64 * 1024
@@ -30,5 +34,11 @@ async def request_context(request: Request, call_next):
 
     response.headers["x-request-id"] = request_id
     response.headers["x-process-time-ms"] = f"{duration_ms:.2f}"
-    print(f"{request_id} {request.method} {request.url.path} {response.status_code} {duration_ms:.2f}ms")
+    logger.info(json.dumps({
+        "request_id": request_id,
+        "method": request.method,
+        "path": request.url.path,
+        "status": response.status_code,
+        "duration_ms": round(duration_ms, 2),
+    }))
     return response

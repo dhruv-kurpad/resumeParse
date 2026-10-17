@@ -48,9 +48,9 @@ Tick each one when I can explain it out loud without notes.
 ### 2. Middleware
 - [x] Request ID middleware (header in, header out, stored on `request.state`) `[3/10]`
 - [x] Timing middleware (`x-process-time-ms` header + log line) `[2/10]`
-- [ ] Decide: always generate the ID, or validate and reuse the client's `[2/10]`
-- [ ] Replace `print` with structured JSON logging that includes the request ID `[5/10]`
-- [ ] Add `LOG_LEVEL` setting to control log output `[2/10]`
+- [x] Decide: always generate the ID, or validate and reuse the client's `[2/10]` (reuse the client's, generate if missing)
+- [x] Replace `print` with structured JSON logging that includes the request ID `[5/10]`
+- [x] Add `LOG_LEVEL` setting to control log output `[2/10]`
 
 ### 3. Upload validation (Pydantic + dependencies)
 - [x] Pydantic response model in place of `dict` `[2/10]`
@@ -74,7 +74,7 @@ Tick each one when I can explain it out loud without notes.
 
 ### 5. Don't block the event loop
 - [x] Run the Azure and Claude calls with `run_in_threadpool` `[3/10]`
-- [ ] Explain why: what would happen if parsing ran directly in `async def` `[6/10]`
+- [x] Explain why: what would happen if parsing ran directly in `async def` `[6/10]`
 
 ### 6. Errors
 - [ ] `AppError` base class with `code` and `status_code` `[3/10]`
