@@ -8,6 +8,9 @@ __pycache__/
 # Environment variables / secrets
 .env
 
+# Local database
+*.db
+
 # Tooling
 .pytest_cache/
 .mypy_cache/

@@ -62,15 +62,15 @@ Tick each one when I can explain it out loud without notes.
 - [x] Return a `ValidatedUpload` Pydantic model to the handler `[3/10]`
 
 ### 4. Layered structure
-- [ ] `service.py`: `ResumeService` orchestrates extract → build profile → save `[4/10]`
-- [ ] `parser.py`: `TextExtractor` protocol + local implementation (`pypdf`, `python-docx`) `[5/10]`
-- [ ] `profile.py`: text → `ResumeProfile` (contact, skills, experience) `[8/10]`
-- [ ] `repository.py`: `ResumeRepository` protocol + in-memory implementation `[3/10]`
-- [ ] Wire everything with `Depends` so each piece can be swapped in tests `[6/10]`
-- [ ] `GET /resumes/{id}` returns a saved profile `[3/10]`
+- [x] `service.py`: `ResumeService` orchestrates extract → build profile → save `[4/10]`
+- [x] `parser.py`: `TextExtractor` protocol + Azure implementation `[5/10]`
+- [x] `profile.py`: text → `ResumeProfile` via Claude (contact, skills, experience, projects) `[4/10]`
+- [x] `repository.py`: `ResumeRepository` protocol + in-memory implementation `[3/10]`
+- [x] Wire everything with `Depends` so each piece can be swapped in tests `[6/10]`
+- [x] `GET /resumes/{id}` returns a saved profile `[3/10]`
 
 ### 5. Don't block the event loop
-- [ ] Run text extraction with `run_in_threadpool` `[3/10]`
+- [x] Run text extraction with `run_in_threadpool` `[3/10]`
 - [ ] Explain why: what would happen if parsing ran directly in `async def` `[6/10]`
 
 ### 6. Errors
@@ -85,10 +85,10 @@ Tick each one when I can explain it out loud without notes.
 - [ ] Inject settings with `Depends(get_settings)` `[3/10]`
 
 ### 8. Azure Document Intelligence (hand-off)
-- [ ] `AzureDocumentIntelligenceExtractor` implementing `TextExtractor` `[5/10]`
-- [ ] Use `prebuilt-read` (or `prebuilt-layout`) via `azure-ai-documentintelligence` `[6/10]` (includes Azure resource setup)
-- [ ] Map Azure errors to `ParserError` `[3/10]`
-- [ ] Switch backends with `EXTRACTOR_BACKEND=azure` `[2/10]`
+- [x] `AzureTextExtractor` implementing `TextExtractor` `[5/10]`
+- [x] Use `prebuilt-read` via `azure-ai-documentintelligence` `[6/10]`
+- [x] Map Azure errors to `ExtractionError` `[3/10]`
+- [x] Add endpoint + key to `.env` and test with a real resume `[2/10]`
 
 ### 9. Tests
 - [ ] `pytest` + FastAPI `TestClient` `[3/10]`

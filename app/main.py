@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from app.middleware import reject_oversized_body, request_context
-from app.router import router
+from app.api.middleware import reject_oversized_body, request_context
+from app.api.router import router
 
 
 app = FastAPI(title="resume-parser")

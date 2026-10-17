@@ -4,7 +4,7 @@ import uuid
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-from app.dependencies import MAX_UPLOAD_BYTES
+from app.api.dependencies import MAX_UPLOAD_BYTES
 
 # Multipart adds boundaries and headers around the file itself.
 MULTIPART_OVERHEAD_BYTES = 64 * 1024
