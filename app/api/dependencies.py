@@ -10,15 +10,14 @@ from app.services.profile import ClaudeProfileBuilder
 from app.services.repository import ResumeRepository, SqliteResumeRepository
 from app.schemas import FileType, User, ValidatedUpload
 from app.services.resume_service import ResumeService
-#Size params
-MAX_UPLOAD_BYTES = 20 * 1024 * 1024 #20MB
-CHUNK_BYTES = 1024 * 1024 #1MB
+
+SettingsDep = Annotated[Settings, Depends(get_settings)]
 
 #Document type validation
 EXTENSIONS = {".pdf": FileType.PDF, ".docx": FileType.DOCX}
 MAGIC_BYTES = {FileType.PDF: b"%PDF-", FileType.DOCX: b"PK\x03\x04"}
 
-async def validated_upload(file: UploadFile) -> ValidatedUpload:
+async def validated_upload(file: UploadFile, settings: SettingsDep) -> ValidatedUpload:
     #ex: resume.pdf
     filename = PurePath(file.filename or "").name
     file_type = EXTENSIONS.get(PurePath(filename).suffix.lower())
@@ -28,13 +27,13 @@ async def validated_upload(file: UploadFile) -> ValidatedUpload:
     chunks = []
     size = 0
     while True:
-        chunk = await file.read(CHUNK_BYTES)
+        chunk = await file.read(settings.upload_chunk_bytes)
 
         if not chunk: #No more chunks
             break
         size += len(chunk)
-        if size > MAX_UPLOAD_BYTES:
-            raise HTTPException(413, f"File exceeds {MAX_UPLOAD_BYTES} bytes")
+        if size > settings.max_upload_bytes:
+            raise HTTPException(413, f"File exceeds {settings.max_upload_bytes} bytes")
         chunks.append(chunk)
 
     if size == 0:

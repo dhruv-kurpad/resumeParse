@@ -4,17 +4,18 @@ import uuid
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-from app.api.dependencies import MAX_UPLOAD_BYTES
+from app.config import get_settings
 
 # Multipart adds boundaries and headers around the file itself.
 MULTIPART_OVERHEAD_BYTES = 64 * 1024
 
 
 async def reject_oversized_body(request: Request, call_next):
+    max_upload_bytes = get_settings().max_upload_bytes
     content_length = request.headers.get("content-length")
     if content_length and content_length.isdigit():
-        if int(content_length) > MAX_UPLOAD_BYTES + MULTIPART_OVERHEAD_BYTES:
-            return JSONResponse(status_code=413, content={"detail": f"File exceeds {MAX_UPLOAD_BYTES} bytes"})
+        if int(content_length) > max_upload_bytes + MULTIPART_OVERHEAD_BYTES:
+            return JSONResponse(status_code=413, content={"detail": f"File exceeds {max_upload_bytes} bytes"})
     return await call_next(request)
 
 

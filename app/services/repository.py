@@ -2,7 +2,11 @@ import sqlite3
 from typing import Protocol
 
 from app.schemas import ResumeResponse
-
+'''
+Note: With a real database server over the network,
+Need an async driver or run_in_threadpool.
+Implement later
+'''
 
 class ResumeRepository(Protocol):
     def save(self, resume: ResumeResponse) -> None: ...
