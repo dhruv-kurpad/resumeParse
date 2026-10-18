@@ -15,7 +15,7 @@ class AzureTextExtractor:
 
     def extract(self, content: bytes) -> str:
         poller = self.client.begin_analyze_document(
-            "prebuilt-layout",
+            "prebuilt-read",
             body=io.BytesIO(content),
         )
 
